@@ -39,7 +39,8 @@ function buttons()
     left = { x = px(0), y = py(1), w = px(1), h = py(6) },
     right = { x = px(7), y = py(1), w = px(1), h = py(6) },
     top = { x = px(1), y = py(0), w = px(6), h = py(1) },
-    bottom = { x = px(1), y = py(7), w = px(6), h = py(1) }
+    bottom = { x = px(1), y = py(7), w = px(6), h = py(1) },
+    quit = { x = px(1), y = py(9), w= px(1), h = py(1) }
   }
 
 end
@@ -58,6 +59,10 @@ function love.draw()
   -- sample player
 end
 
+--function love.mousepressed(x,y,button)
+--  checkButtons(x,y)
+--end
+
 function love.update(dt)
   if love.keyboard.isDown("up") then
     up()
@@ -71,12 +76,12 @@ function love.update(dt)
   if love.keyboard.isDown("right") then
     right()
   end
-  local touches = love.touch.getTouches()
+   local touches = love.touch.getTouches()
 
-  for i, id in pairs(touches) do
-    local x, y = love.touch.getPosition(id)
-    checkButtons(x, y)
-  end
+   for i, id in pairs(touches) do
+     local x, y = love.touch.getPosition(id)
+     checkButtons(x, y)
+   end
 
 end
 
@@ -94,7 +99,7 @@ function right()
 end
 
 function checkButtons(mx, my)
-  for name, button in pairs(buttons) do
+  for name, button in pairs(buttons()) do
     -- verifica se abbiamo cliccato all'interno del rettangolo corrispondente
     -- a questo bottone ma solo se t e' zero (evita di cliccare troppo velocemente)
     if
@@ -111,6 +116,8 @@ function checkButtons(mx, my)
         down()
       elseif name == "right" then
         right()
+      elseif name == "quit" then
+        love.event.quit()
       end
     end
   end
